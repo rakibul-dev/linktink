@@ -33,14 +33,17 @@ const LoginPage = () => {
           </Flex>
 
           <Flex vertical justify="center" align="center" gap="small">
-            <Button
-              type="primary"
-              shape="round"
-              icon={<GoogleCircleFilled />}
-              size="middle"
-            >
-              Login with Google
-            </Button>
+            <a href={`${import.meta.env.VITE_API_ROOT_V1}/auth/user/google`}>
+              <Button
+                type="primary"
+                shape="round"
+                icon={<GoogleCircleFilled />}
+                size="middle"
+              >
+                Login with Google
+              </Button>
+            </a>
+
             <Button
               type="primary"
               shape="round"
