@@ -3,22 +3,15 @@ import { Button } from "antd";
 import { RouterProvider } from "react-router-dom";
 import router from "./Routes/Router";
 
-import { useEffect, useState } from "react";
-// function App() {
-//   return (
+import { useEffect } from "react";
 
-//   );
-// }
-
-// export default App;
-
-import React from "react";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "./Redux/slices/userSlice";
 
 const App = () => {
-  const [userData, setUserData] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Function to get cookie value by name
     function getCookie(cookieName) {
       let cookies = document.cookie;
       let cookieArray = cookies.split("; ");
@@ -35,12 +28,17 @@ const App = () => {
       return null;
     }
 
-    let username = getCookie("user");
-    try {
-      const dataObject = JSON.parse(username);
-      console.log(dataObject);
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
+    let userData = getCookie("user");
+
+    if (userData) {
+      try {
+        const userDataObject = JSON.parse(userData);
+        console.log(userDataObject);
+
+        dispatch(setUserInfo(userDataObject));
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
     }
   }, []);
   return (
