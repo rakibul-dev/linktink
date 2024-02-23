@@ -1,6 +1,28 @@
 import { Col, Row, Flex, Button } from "antd";
-
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { setUserInfo } from "../../Redux/slices/userSlice";
 const Header = () => {
+  const { userInfo } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const loginLogoutHandler = async () => {
+    if (userInfo.id) {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_ROOT_V1}/auth/user/logout`
+      );
+
+      console.log({ res });
+
+      Cookies.remove("user");
+
+      dispatch(setUserInfo({}));
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <div
       style={{
@@ -23,7 +45,9 @@ const Header = () => {
         <Col xs={0} md={12}>
           <Flex justify="flex-end" gap="large">
             <Button type="text">contact</Button>
-            <Button type="primary">Login</Button>
+            <Button type="primary" onClick={() => loginLogoutHandler()}>
+              {userInfo.id ? "Logout" : "Login"}
+            </Button>
           </Flex>
         </Col>
       </Row>
