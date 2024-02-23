@@ -4,6 +4,7 @@ import { EnterOutlined, LinkOutlined } from "@ant-design/icons";
 import { Input, Flex, Typography, Row, Col, Button } from "antd";
 import ShortLinkCard from "../ShortLinkCard/ShortLinkCard";
 const { Title } = Typography;
+
 const HomeBanner = () => {
   return (
     <div
