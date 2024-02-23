@@ -1,16 +1,22 @@
-import {
-  Col,
-  Row,
-  Flex,
-  Card,
-  Segmented,
-  Tabs,
-  Typography,
-  Button,
-} from "antd";
+import { Col, Row, Flex, Card, Typography, Input, Modal, Button } from "antd";
+import { useState } from "react";
 import { BarChartOutlined, LinkOutlined } from "@ant-design/icons";
 const { Title, Paragraph } = Typography;
 const ProjectListing = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div>
       <Flex vertical gap={50}>
@@ -19,7 +25,9 @@ const ProjectListing = () => {
             <Title level={1} style={{ margin: 0, padding: 0 }}>
               My Projects
             </Title>
-            <Button type="primary">CREATE PROJECT</Button>
+            <Button type="primary" onClick={showModal}>
+              CREATE PROJECT
+            </Button>
           </Flex>
           <Col md={8}></Col>
           <Col
@@ -119,6 +127,25 @@ const ProjectListing = () => {
           </Col>
         </Row>
       </Flex>
+
+      <Modal
+        title="Create a new project"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={(_, { OkBtn, CancelBtn }) => (
+          <>
+            {/* <CancelBtn /> */}
+            <Button type="primary" onClick={handleOk}>
+              Create project
+            </Button>
+          </>
+        )}
+      >
+        {/* Create a new project input field */}
+        <Input placeholder="Project name" />
+        {/* Create a new project  button */}
+      </Modal>
     </div>
   );
 };
