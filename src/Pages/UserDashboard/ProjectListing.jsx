@@ -1,8 +1,18 @@
 import { Col, Row, Flex, Card, Typography, Input, Modal, Button } from "antd";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { BarChartOutlined, LinkOutlined } from "@ant-design/icons";
+import { getProjects } from "../../Redux/slices/projectSlice";
+import { useNavigate } from "react-router-dom";
 const { Title, Paragraph } = Typography;
 const ProjectListing = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { projects } = useSelector((state) => state.projects);
+  useEffect(() => {
+    dispatch(getProjects());
+  }, []);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -29,19 +39,6 @@ const ProjectListing = () => {
               CREATE PROJECT
             </Button>
           </Flex>
-          <Col md={8}></Col>
-          <Col
-            md={8}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Flex justify="center" align="center">
-              {" "}
-            </Flex>
-          </Col>
         </Card>
         <Row
           justify="start"
@@ -49,82 +46,40 @@ const ProjectListing = () => {
           gutter={[15, 15]}
           style={{ width: "100%" }}
         >
-          <Col md={7}>
-            <Card style={{ width: "100%", height: "100px" }}>
-              <Flex>
-                <Title level={4} style={{ margin: 0 }}>
-                  Youtube
-                </Title>
-              </Flex>
-              <Flex gap={8}>
-                <Flex align="center" gap={4}>
-                  <BarChartOutlined />
-                  <Paragraph style={{ margin: 0 }}>230 clicks</Paragraph>
-                </Flex>
-                <Flex align="center" gap={4}>
-                  <LinkOutlined />
-                  <Paragraph style={{ margin: 0 }}>230 clicks</Paragraph>
-                </Flex>
-              </Flex>
-            </Card>
-          </Col>
-          <Col md={7}>
-            <Card style={{ width: "100%", height: "100px" }}>
-              <Flex>
-                <Title level={4} style={{ margin: 0 }}>
-                  Youtube
-                </Title>
-              </Flex>
-              <Flex gap={8}>
-                <Flex align="center" gap={4}>
-                  <BarChartOutlined />
-                  <Paragraph style={{ margin: 0 }}>230 clicks</Paragraph>
-                </Flex>
-                <Flex align="center" gap={4}>
-                  <LinkOutlined />
-                  <Paragraph style={{ margin: 0 }}>230 clicks</Paragraph>
-                </Flex>
-              </Flex>
-            </Card>
-          </Col>{" "}
-          <Col md={7}>
-            <Card style={{ width: "100%", height: "100px" }}>
-              <Flex>
-                <Title level={4} style={{ margin: 0 }}>
-                  Youtube
-                </Title>
-              </Flex>
-              <Flex gap={8}>
-                <Flex align="center" gap={4}>
-                  <BarChartOutlined />
-                  <Paragraph style={{ margin: 0 }}>230 clicks</Paragraph>
-                </Flex>
-                <Flex align="center" gap={4}>
-                  <LinkOutlined />
-                  <Paragraph style={{ margin: 0 }}>230 clicks</Paragraph>
-                </Flex>
-              </Flex>
-            </Card>
-          </Col>{" "}
-          <Col md={7}>
-            <Card style={{ width: "100%", height: "100px" }}>
-              <Flex>
-                <Title level={4} style={{ margin: 0 }}>
-                  Youtube
-                </Title>
-              </Flex>
-              <Flex gap={8}>
-                <Flex align="center" gap={4}>
-                  <BarChartOutlined />
-                  <Paragraph style={{ margin: 0 }}>230 clicks</Paragraph>
-                </Flex>
-                <Flex align="center" gap={4}>
-                  <LinkOutlined />
-                  <Paragraph style={{ margin: 0 }}>230 clicks</Paragraph>
-                </Flex>
-              </Flex>
-            </Card>
-          </Col>
+          {projects && projects.length ? (
+            projects.map((project) => (
+              <Col md={7} key={project.id}>
+                <Card
+                  style={{ width: "100%", height: "100px", cursor: "pointer" }}
+                  onClick={() => {
+                    navigate(`/user/dashboard/projects/${project.id}`);
+                  }}
+                >
+                  <Flex>
+                    <Title level={4} style={{ margin: 0 }}>
+                      {project.project_name}
+                    </Title>
+                  </Flex>
+                  <Flex gap={8}>
+                    <Flex align="center" gap={4}>
+                      <LinkOutlined />
+                      <Paragraph style={{ margin: 0 }}>
+                        {project.shortlink_count} Links
+                      </Paragraph>
+                    </Flex>
+                    <Flex align="center" gap={4}>
+                      <BarChartOutlined />
+                      <Paragraph style={{ margin: 0 }}>
+                        {project.total_clicks} Clicks
+                      </Paragraph>
+                    </Flex>
+                  </Flex>
+                </Card>
+              </Col>
+            ))
+          ) : (
+            <h2>Loading</h2>
+          )}
         </Row>
       </Flex>
 
