@@ -44,14 +44,14 @@ const LoginPage = () => {
               </Button>
             </a>
 
-            <Button
+            {/* <Button
               type="primary"
               shape="round"
               icon={<FacebookFilled />}
               size="middle"
             >
               Login with Facebook
-            </Button>
+            </Button> */}
           </Flex>
         </Flex>
       </Card>
