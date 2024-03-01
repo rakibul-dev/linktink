@@ -1,6 +1,6 @@
 const theme = {
   token: {
-    colorPrimary: "red",
+    colorPrimary: "#f97316",
     borderRadius: 2,
   },
 };
